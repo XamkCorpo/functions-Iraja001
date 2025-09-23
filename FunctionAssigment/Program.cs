@@ -2,44 +2,90 @@
 {
     internal class Program
     {
+        static string kysynimi()
+        {
+            while (true)
+            {
+                Console.Write("Enter your name: ");
+                string? input = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(input))
+                    return input.Trim();
+                Console.WriteLine("Name cannot be empty.");
+
+
+            }
+        }
+
+        /// <summary>
+        /// Asks user age, confirms it's a positive integer
+        /// </summary>
+        /// <returns>User age</returns>
+        static int Kysyika()
+        {
+            while (true)
+            {
+                Console.Write("Enter your age: ");
+                string? input = Console.ReadLine();
+                if (int.TryParse(input, out int age) && age > 0)
+                    return age;
+
+                Console.WriteLine("Please enter a positive integer.");
+            }
+        }
+        static void main(string[] args)
+        {
+            string name = kysynimi();
+            int age = Kysyika();
+            Tulostanimiika(name, age);
+            bool isfullage = tarkistataysiIkainen(age);
+
+            if (isfullage == true)
+            {
+                Console.WriteLine("You are an adult.");
+            }
+
+            else
+            {
+                Console.WriteLine("You are not an adult.");
+                Vertaanimea(name, "Matti");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="age"></param>
+        static void Tulostanimiika(string name, int age)
+        {
+
+            Console.WriteLine($"Your name is {name} and your age is {age}.");
+        }
+
+
+        /// <summary>
+        /// Tarkistaa onko ikä täysi-ikäinen
+        /// </summary>
+        /// <param name="age">Käyttäjän ikä</param>
+        /// <returns>Tulos onko täysi-ikäinen</returns>
+        static bool tarkistataysiIkainen(int age)
+        {
+            return age >= 18;
+        }
+
         static void Main(string[] args)
         {
             // Everything is intentionally inside Main before refactoring to functions
             //Your job is to refactor this code to use functions for better readability and reusability.
             //Check learn on how to do this
 
-            string name = "";
-            int age = 0;
-            bool valid = false;
+            string name = kysynimi();
+            int age = Kysyika();
 
-            // Ask for name and ensure it is not empty
-            while (!valid)
-            {
-                Console.Write("Enter your name: ");
-                name = Console.ReadLine();
-                if (!string.IsNullOrWhiteSpace(name))
-                    valid = true;
-                else
-                    Console.WriteLine("Name cannot be empty.");
-            }
+            bool isAdult = tarkistataysiIkainen(age);
 
-            // Ask for age and ensure it is a positive integer
-            valid = false;
-            while (!valid)
-            {
-                Console.Write("Enter your age: ");
-                string input = Console.ReadLine();
-                if (int.TryParse(input, out age) && age > 0)
-                    valid = true;
-                else
-                    Console.WriteLine("Please enter a positive integer.");
-            }
-
-            // Print name and age
-            Console.WriteLine($"Your name is {name} and your age is {age}.");
-
-            // Check if the user is an adult
-            if (age >= 18)
+            if (isAdult == true)
                 Console.WriteLine("You are an adult.");
             else
                 Console.WriteLine("You are not an adult.");
@@ -47,13 +93,26 @@
             // Compare the name to another string (e.g., "Matti")
             string compareName = "Matti";
 
-            // Comparison ignoring case
-            if (name.Equals(compareName, StringComparison.OrdinalIgnoreCase))
-                Console.WriteLine("Your name matches 'Matti' (case-insensitive).");
+            bool namesMatch = Vertaanimea(name, compareName);
 
-            // Exact match comparison (case-sensitive)
-            if (name.Equals(compareName))
-                Console.WriteLine("Your name is exactly 'Matti' (case-sensitive).");
+        }
+
+        static bool Vertaanimea(string name, string compareTo)
+        {
+            bool isMatch = false;
+            // Comparison ignoring case
+            if (name.Equals(compareTo, StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine($"Your name matches '{compareTo}' (case-insensitive).");
+                isMatch = true;
+
+            }
+            else
+            {
+                Console.WriteLine($"Your name does not match '{compareTo}' (case-insensitive).");
+            }
+
+            return isMatch;
         }
     }
 }

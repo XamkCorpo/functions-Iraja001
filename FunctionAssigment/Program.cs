@@ -17,6 +17,10 @@
             }
         }
 
+        /// <summary>
+        /// Asks user age, confirms it's a positive integer
+        /// </summary>
+        /// <returns>User age</returns>
         static int Kysyika()
         {
             while (true)
@@ -27,6 +31,24 @@
                     return age;
 
                 Console.WriteLine("Please enter a positive integer.");
+            }
+        }
+        static void main(string[] args)
+        {
+            string name = kysynimi();
+            int age = Kysyika();
+            Tulostanimiika(name, age);
+            bool isfullage = tarkistataysiIkainen(age);
+
+            if (isfullage == true)
+            {
+                Console.WriteLine("You are an adult.");
+            }
+
+            else
+            {
+                Console.WriteLine("You are not an adult.");
+                Vertaanimea(name, "Matti");
             }
         }
 
@@ -41,7 +63,12 @@
             Console.WriteLine($"Your name is {name} and your age is {age}.");
         }
 
-        
+
+        /// <summary>
+        /// Tarkistaa onko ikä täysi-ikäinen
+        /// </summary>
+        /// <param name="age">Käyttäjän ikä</param>
+        /// <returns>Tulos onko täysi-ikäinen</returns>
         static bool tarkistataysiIkainen(int age)
         {
             return age >= 18;
@@ -80,9 +107,10 @@
                 isMatch = true;
 
             }
-            // Exact match comparison (case-sensitive)
-            if (name.Equals(compareTo))
-                Console.WriteLine($"your name matches '{compareTo}' (case-sensitive).");
+            else
+            {
+                Console.WriteLine($"Your name does not match '{compareTo}' (case-insensitive).");
+            }
 
             return isMatch;
         }
